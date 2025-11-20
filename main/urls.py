@@ -4,10 +4,11 @@ from .views import (
     CourseViewSet,
     CourseDescriptionViewSet,
     CourseIconViewSet,
+    LoginView,
     TeacherViewSet,
     PartnerViewSet,
     BannerImageViewSet,
-    CourseDescriptionGroupView
+    CourseDescriptionGroupView,
 )
 
 router = DefaultRouter()
@@ -21,4 +22,5 @@ router.register(r"course-description-group", CourseDescriptionGroupView)
 
 urlpatterns = [
     path("", include(router.urls)),
+    path("login/", LoginView.as_view(), name="login"),
 ]

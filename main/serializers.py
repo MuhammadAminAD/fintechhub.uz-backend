@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from django.contrib.auth import authenticate
 from .models import (
     Course,
     Teacher,
@@ -9,10 +10,12 @@ from .models import (
     CourseDescriptionGroup,
 )
 
+
 class CourseDescriptionGroupSerializer(serializers.ModelSerializer):
     class Meta:
         model = CourseDescriptionGroup
         fields = "__all__"
+
 
 class CourseDescriptionSerializer(serializers.ModelSerializer):
 
@@ -78,3 +81,17 @@ class BannerImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = BannerImage
         fields = "__all__"
+
+
+
+
+class LoginSerializer(serializers.Serializer):
+    username = serializers.CharField()
+    password = serializers.CharField(write_only=True)
+
+    def validate(self, data):
+        user = authenticate(username=data["username"], password=data["password"])
+        if not user:
+            raise serializers.ValidationError("Username yoki parol noto‘g‘ri!")
+        data["user"] = user
+        return data
