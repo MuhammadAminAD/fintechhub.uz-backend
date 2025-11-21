@@ -1,4 +1,24 @@
+# Environment
 .env
+*.env
+
+# Python
+__pycache__/
+*.pyc
+
+# Django
 /static
 /media
 db.sqlite3
+
+# IDE
+.vscode/
+.idea/
+
+# Virtual env
+venv/
+env/
+
+# Docker
+*.log
+*.pid

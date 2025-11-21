@@ -3,25 +3,27 @@ services:
     build: .
     container_name: drf_web
     command: gunicorn src.wsgi:application --bind 0.0.0.0:8000 --workers 3
-    volumes:
-      - .:/app
-    expose:
-      - 8000
     env_file:
       - .env
-    # depends_on:
-    #   - db   <-- bu qatorni o'chiring, SQLite3 uchun kerak emas
-
-  nginx:
-    image: nginx:latest
-    container_name: drf_nginx
     ports:
-      - "80:80"
-    volumes:
-      - ./nginx/conf.d:/etc/nginx/conf.d
-      - static_volume:/static
+      - "8000:8000"
     depends_on:
-      - web
+      - db
+    volumes:
+      - media_data:/app/media
+
+  db:
+    image: postgres:16
+    container_name: drf_db
+    environment:
+      POSTGRES_DB: fintechhubuz
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1Dlshdvch_12
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
 
 volumes:
-  static_volume:
+  postgres_data:
+  media_data:
